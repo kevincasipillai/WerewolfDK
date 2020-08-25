@@ -1,3 +1,5 @@
+# Hej med dig, dette er en utility script 
+
 import random
 
 def number_of_players_func():
