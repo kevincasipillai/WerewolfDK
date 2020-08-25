@@ -1,4 +1,5 @@
-# Hej med dig, dette er en utility script 
+# Hej med dig, dette er en utility script
+# test 2
 
 import random
 
