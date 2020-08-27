@@ -12,6 +12,15 @@ hidden_characters = character_info[2]
 for i in range(0, number_of_players):
     print(f"{players[i]} is {character[i]}")
 
-print(f"Hidden charachters are {hidden_characters}")
+print(f"Hidden characters are {hidden_characters}")
 print(f"All characters are {all_characters}")
 
+#mail_list = ['dannydasan@hotmail.com','dannydasan@hotmail.com','dantho13@student.aau.dk','dantho13@student.aau.dk']
+
+#send_mail(mail_list,character)
+
+mail_list = []
+mail_list = reveal_sys(players, character)
+#send_mail(mail_list, character)
+
+    
