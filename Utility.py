@@ -136,13 +136,16 @@ def reveal_sys(players, character):
             time.sleep(2)
             #print(f"{players[i], are you ready? [y/n]?}")
             ans_temp = input(str(f"{players[i]}, are you ready? (y/n)?:"))
+            
+            while ans_temp == "n": 
+                ans_temp = input(str(f"{players[i]}, are you ready now? (y/n)?:"))
+            
             if ans_temp == "y":
             
                 print(f"{players[i]}, you are {character[i]}")
                 time.sleep(2)
                 os.system('clear')
-            elif ans_temp == "n":
-                reveal_sys(players, character)                       
+                                   
                     
     elif reveal == "mail":
         for i in range(0,len(players)):
