@@ -1,5 +1,9 @@
 import random
 import numpy as np
+import smtplib
+import email
+import time 
+import os 
 
 def number_of_players_func():
     number_of_players = int(input("Enter Number of players: "))
@@ -63,8 +67,8 @@ First character: """))
 
     while character_num > 16 or character_num < 1:      # Making sure the first charachter is a valid number
         print(" ")
-        print("Invalid charachter!")
-        character_num = int(input("Choose another charachter: "))
+        print("Invalid character!")
+        character_num = int(input("Choose another character: "))
 
     choosen_characters_for_game.append(character_num)
     print(" ")
@@ -73,8 +77,8 @@ First character: """))
         character_num = int(input("Next character: "))
         while character_num in choosen_characters_for_game or character_num > 16 or character_num < 1:
             print(" ")
-            print("Invalid charachter or charachter is already chosen!")
-            character_num = int(input("Choose another charachter: "))
+            print("Invalid character or character is already chosen!")
+            character_num = int(input("Choose another character: "))
 
         choosen_characters_for_game.append(character_num)
         print(" ")
@@ -94,3 +98,68 @@ First character: """))
     hidden_characters = [all_chosen_characters[i] for i in hidden_characters_num]
 
     return all_chosen_characters, playing_characters, hidden_characters
+
+
+
+def send_mail(mail_list, character):
+    sender_email = "dannydasan@hotmail.com" # Skriv, hvilken mail vi skal sende fra her 
+    password = input(str("Please enter password:")) # Skriv password her 
+    
+    
+    
+    for i in range(len(mail_list)):
+       
+        msg = email.message_from_string('You are a:' + ' ' + character[i])
+        msg['From'] = sender_email
+        msg['To'] = mail_list[i]
+        msg['Subject'] = "Werewolf game"
+    
+        sever = smtplib.SMTP('smtp.live.com', 587)
+        sever.ehlo()
+        sever.starttls()
+        sever.ehlo()
+        sever.login(sender_email, password)
+        print("Login success")
+        sever.sendmail(sender_email, mail_list[i], msg.as_string())
+        print("Email has been sent to:", mail_list[i])
+        
+    print('The character is now sent to your mails, please check it')
+    sever.quit()
+    
+def reveal_sys(players, character): 
+    mail_list = []
+    reveal = input(str("Do you want to reveal the characters on the screen or mail. (screen/mail):"))
+    
+    if reveal == "screen": 
+        for i in range(0, len(players)): 
+            print(f"Show the screen to {players[i]}")
+            time.sleep(2)
+            #print(f"{players[i], are you ready? [y/n]?}")
+            ans_temp = input(str(f"{players[i]}, are you ready? (y/n)?:"))
+            
+            while ans_temp == "n": 
+                ans_temp = input(str(f"{players[i]}, are you ready now? (y/n)?:"))
+            
+            if ans_temp == "y":
+            
+                print(f"{players[i]}, you are {character[i]}")
+                time.sleep(2)
+                os.system('clear')
+                                   
+                    
+    elif reveal == "mail":
+        for i in range(0,len(players)):
+            mail_temp = input(str(f"{players[i]}, enter your mail:"))
+            mail_list.append(mail_temp)
+            
+        send_mail(mail_list, character)
+        
+        #return mail_list
+        
+    else: 
+        print('Invalid syntax, please try again')
+        reveal_sys(players, character)
+        
+    return mail_list
+    
+
