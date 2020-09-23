@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Sep 18 18:01:41 2020
+
+@author: dannyanthonimuthu
+"""
+
+import tkinter as tk                
+from tkinter import font as tkfont  
+from PIL import ImageTk, Image
+from tkinter import ttk 
+ 
+
+#my_img = ImageTk.PhotoImage(Image.open("Werewolf_pic.jpg"))
+
+class SampleApp(tk.Tk):
+
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+
+        # the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the others
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (StartPage, PageOne, PageTwo, PageThree): #Add frames
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("StartPage")
+
+    def show_frame(self, page_name):
+        '''Show a frame for the given page name'''
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+
+class StartPage(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        
+        #self.my_img = ImageTk.PhotoImage(Image.open("Werewolf_pic.jpg")) 
+        
+        
+        #label = tk.Label(self, image=self.my_img)
+        label = tk.Label(self, text="This is a picture")
+        label.pack()
+
+        button1 = tk.Button(self, text="Start game",
+                            command=lambda: controller.show_frame("PageOne"))
+        button2 = tk.Button(self, text="Rules",
+                            command=lambda: controller.show_frame("PageTwo"))
+        button1.pack()
+        button2.pack()
+
+
+class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        
+        label = tk.Label(self, text="Settings", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        
+        label_player = tk.Label(self, text="Number of players", font= controller.title_font)
+        label_player.pack(side="left", padx=50,pady=5)
+        
+        choice_var = tk.StringVar()
+        choices_players = ["2","3","4","5","6","7"]
+        choice_var.set(choices_players[3])
+        
+        om = tk.OptionMenu(self,choice_var,*choices_players)
+        cb_player = tk.ttk.Combobox(self, textvariable=choice_var, values=choices_players)
+        
+        
+        om.pack(side="right", padx=50,pady=25)
+        cb_player.pack(side="right", padx=50,pady=25)
+        button = tk.Button(self, text="Go to the start page",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack()
+
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Rules", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Back",
+                           command=lambda: controller.show_frame("StartPage"))
+        button.pack(side="bottom")
+        
+        button2 = tk.Button(self, text="To page three",
+                           command=lambda: controller.show_frame("PageThree"))
+        button2.pack(side="bottom")
+
+
+class PageThree(tk.Frame): 
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        
+        label2 = tk.Label(self,text="Hello", font=controller.title_font)
+        label2.pack(side="top", fill="x", pady=10)
+    
+
+if __name__ == "__main__":
+    app = SampleApp()
+    app.mainloop()
+
+      
