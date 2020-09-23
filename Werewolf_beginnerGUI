@@ -10,9 +10,10 @@ import tkinter as tk
 from tkinter import font as tkfont  
 from PIL import ImageTk, Image
 from tkinter import ttk 
- 
+from FunctionsToChooseCharacter import *
+# Pictures for game
+#my_img = ImageTk.PhotoImage(Image.open("Werewolf_pic.jpg")) # start page
 
-#my_img = ImageTk.PhotoImage(Image.open("Werewolf_pic.jpg"))
 
 class SampleApp(tk.Tk):
 
@@ -30,7 +31,7 @@ class SampleApp(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         self.frames = {}
-        for F in (StartPage, PageOne, PageTwo, PageThree): #Add frames
+        for F in (StartPage, PageOne, PageTwo, ChooseCharacter): #Add frames
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -95,6 +96,10 @@ class PageOne(tk.Frame):
                            command=lambda: controller.show_frame("StartPage"))
         button.pack()
 
+        button2 = tk.Button(self, text="To page with characters",
+                            command=lambda: controller.show_frame("ChooseCharacter"))
+        button2.pack(side="bottom")
+
 
 class PageTwo(tk.Frame):
 
@@ -106,20 +111,69 @@ class PageTwo(tk.Frame):
         button = tk.Button(self, text="Back",
                            command=lambda: controller.show_frame("StartPage"))
         button.pack(side="bottom")
-        
-        button2 = tk.Button(self, text="To page three",
-                           command=lambda: controller.show_frame("PageThree"))
-        button2.pack(side="bottom")
 
 
-class PageThree(tk.Frame): 
+class ChooseCharacter(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        
-        label2 = tk.Label(self,text="Hello", font=controller.title_font)
-        label2.pack(side="top", fill="x", pady=10)
-    
+
+        resize_x = 105
+        resize_y = 150
+        PATH = "/Users/kevincasipillai/Desktop/WerewolfCard_pics/"
+        # Button pictures loaded to variables
+        self.pic_werewolf = ImageTk.PhotoImage(Image.open(PATH + "Werewolf.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_minion = ImageTk.PhotoImage(Image.open(PATH + "Minion.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_mason = ImageTk.PhotoImage(Image.open(PATH + "Mason.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_seer = ImageTk.PhotoImage(Image.open(PATH + "Seer.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_robber = ImageTk.PhotoImage(Image.open(PATH + "Robber.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_troublemaker = ImageTk.PhotoImage(Image.open(PATH + "Troublemaker.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_drunk = ImageTk.PhotoImage(Image.open(PATH + "Drunk.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_insomniac = ImageTk.PhotoImage(Image.open(PATH + "Insomniac.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_villager = ImageTk.PhotoImage(Image.open(PATH + "Villager.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_hunter = ImageTk.PhotoImage(Image.open(PATH + "Hunter.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_tanner = ImageTk.PhotoImage(Image.open(PATH + "Tanner.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+        self.pic_doppelganger = ImageTk.PhotoImage(Image.open(PATH + "Doppelganger.png").resize((resize_x, resize_y), Image.ANTIALIAS))
+
+        # Create button widgets
+        C1_werewolf_1 = tk.Button(self, image=self.pic_werewolf, command=f_C1)
+        C2_werewolf_2 = tk.Button(self, image=self.pic_werewolf, command=f_C2)
+        C3_minion_1 = tk.Button(self, image=self.pic_minion, command=f_C3)
+        C4_mason_1 = tk.Button(self, image=self.pic_mason, command=f_C4)
+        C5_mason_2 = tk.Button(self, image=self.pic_mason, command=f_C5)
+        C6_seer_1 = tk.Button(self, image=self.pic_seer, command=f_C6)
+        C7_robber_1 = tk.Button(self, image=self.pic_robber, command=f_C7)
+        C8_troublemaker_1 = tk.Button(self, image=self.pic_troublemaker, command=f_C8)
+        C9_drunk_1 = tk.Button(self, image=self.pic_drunk, command=f_C9)
+        C10_insomniac_1 = tk.Button(self, image=self.pic_insomniac, command=f_C10)
+        C11_villager_1 = tk.Button(self, image=self.pic_villager, command=f_C11)
+        C12_villager_2 = tk.Button(self, image=self.pic_villager, command=f_C12)
+        C13_villager_3 = tk.Button(self, image=self.pic_villager, command=f_C13)
+        C14_hunter_1 = tk.Button(self, image=self.pic_hunter, command=f_C14)
+        C15_tanner_1 = tk.Button(self, image=self.pic_tanner, command=f_C15)
+        C16_doppelganger_1 = tk.Button(self, image=self.pic_doppelganger, command=f_C16)
+
+        # Pack button widgets to frame
+        C_X_padding = 50
+        C_Y_padding = 5
+        C1_werewolf_1.grid(row=0, column=1, padx=C_X_padding, pady=C_Y_padding)
+        C2_werewolf_2.grid(row=0, column=2, padx=C_X_padding, pady=C_Y_padding)
+        C3_minion_1.grid(row=0, column=3, padx=C_X_padding, pady=C_Y_padding)
+        C4_mason_1.grid(row=0, column=4, padx=C_X_padding, pady=C_Y_padding)
+        C5_mason_2.grid(row=1, column=1, padx=C_X_padding, pady=C_Y_padding)
+        C6_seer_1.grid(row=1, column=2, padx=C_X_padding, pady=C_Y_padding)
+        C7_robber_1.grid(row=1, column=3, padx=C_X_padding, pady=C_Y_padding)
+        C8_troublemaker_1.grid(row=1, column=4, padx=C_X_padding, pady=C_Y_padding)
+        C9_drunk_1.grid(row=2, column=1, padx=C_X_padding, pady=C_Y_padding)
+        C10_insomniac_1.grid(row=2, column=2, padx=C_X_padding, pady=C_Y_padding)
+        C11_villager_1.grid(row=2, column=3, padx=C_X_padding, pady=C_Y_padding)
+        C12_villager_2.grid(row=2, column=4, padx=C_X_padding, pady=C_Y_padding)
+        C13_villager_3.grid(row=3, column=1, padx=C_X_padding, pady=C_Y_padding)
+        C14_hunter_1.grid(row=3, column=2, padx=C_X_padding, pady=C_Y_padding)
+        C15_tanner_1.grid(row=3, column=3, padx=C_X_padding, pady=C_Y_padding)
+        C16_doppelganger_1.grid(row=3, column=4, padx=C_X_padding, pady=C_Y_padding)
+
+
 
 if __name__ == "__main__":
     app = SampleApp()
